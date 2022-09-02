@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cuentas.Api.Migrations
 {
     [DbContext(typeof(ContextCuenta))]
-    [Migration("20220901035550_Initialice")]
-    partial class Initialice
+    [Migration("20220901201405_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

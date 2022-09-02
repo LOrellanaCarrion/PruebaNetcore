@@ -2,6 +2,7 @@
 using Cuentas.Api.Utils;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -23,6 +24,7 @@ namespace Cuentas.Api.RemoteService
             Response _response = new Response();
             try
             {
+                
                 var client = _httpClientFactory.CreateClient("Cliente");
                var response= await client.GetAsync($"api/cliente/GetClienteById/{IdCliente}");
                 if (response.StatusCode== HttpStatusCode.OK)

@@ -10,8 +10,8 @@ using Movimientos.Api.Context;
 namespace Movimientos.Api.Migrations
 {
     [DbContext(typeof(ContextMovimiento))]
-    [Migration("20220901051110_Initialice")]
-    partial class Initialice
+    [Migration("20220901201615_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

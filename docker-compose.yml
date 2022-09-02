@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  cliente.api:
+    image: ${DOCKER_REGISTRY-}clienteapi
+    build:
+      context: .
+      dockerfile: Cliente.Api/Dockerfile
+  cuentas.api:
+    image: ${DOCKER_REGISTRY-}cuentasapi
+    build:
+      context: .
+      dockerfile: Cuentas.Api/Dockerfile
+
+  movimientos.api:
+    image: ${DOCKER_REGISTRY-}movimientosapi
+    build:
+      context: .
+      dockerfile: Movimientos.Api/Dockerfile
+
+  api.gateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: Api.Gateway/Dockerfile
+
+networks:
+   default:
+    external:
+      name: microservicenet
+
+

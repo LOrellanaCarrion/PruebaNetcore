@@ -14,11 +14,11 @@ namespace Xunit.ClienteApi.Test
 {
     public class ClienteServiceTest
     {
-       
+
         private IEnumerable<Cliente.Api.Modelo.Cliente> ObtenerDatosPrueba()
         {
             List<Cliente.Api.Modelo.Cliente> lst = new List<Cliente.Api.Modelo.Cliente>();
-            Cliente.Api.Modelo.Cliente model  = new Cliente.Api.Modelo.Cliente();
+            Cliente.Api.Modelo.Cliente model = new Cliente.Api.Modelo.Cliente();
             model.Id = 1;
             model.Nombre = "Luis Orellana";
             model.Estado = true;
@@ -26,7 +26,7 @@ namespace Xunit.ClienteApi.Test
             model.Contrasena = "1234";
             model.Genero = "Masculino";
             lst.Add(model);
-             model = new Cliente.Api.Modelo.Cliente();
+            model = new Cliente.Api.Modelo.Cliente();
             model.Id = 2;
             model.Nombre = "Manuel Orellana";
             model.Estado = true;
@@ -35,6 +35,18 @@ namespace Xunit.ClienteApi.Test
             model.Genero = "Masculino";
             lst.Add(model);
             return lst;
+
+        }
+
+        private Cliente.Api.Modelo.Cliente Cliente()
+        {
+            Cliente.Api.Modelo.Cliente model = new Cliente.Api.Modelo.Cliente();
+            model.Nombre = "Luis Orellana";
+            model.Estado = true;
+            model.Edad = "28";
+            model.Contrasena = "1234";
+            model.Genero = "Masculino";
+            return model;
 
         }
         private Mock<ContextCliente> CrearContexto()
@@ -50,7 +62,7 @@ namespace Xunit.ClienteApi.Test
                 .Returns(new AsyncEnumerator<Cliente.Api.Modelo.Cliente>(data.GetEnumerator()));
             //return dbSet;
             var contexto = new Mock<ContextCliente>();
-            contexto.Setup(p=>p.Cliente).Returns(dbSet.Object);
+            contexto.Setup(p => p.Cliente).Returns(dbSet.Object);
             return contexto;
         }
 
@@ -60,9 +72,14 @@ namespace Xunit.ClienteApi.Test
             System.Diagnostics.Debugger.Launch();
             var mockContexto = CrearContexto();
             RepositoryCliente repositoryCliente = new RepositoryCliente(mockContexto.Object);
-           var response= await repositoryCliente.GetClientes();
+            var response = await repositoryCliente.GetClientes();
 
             Assert.True(response.Any());
+
+            //var cliente = Cliente();
+            //var agregar = await repositoryCliente.Agregar(cliente);
+
+            //Assert.True(agregar>0?true:false);
         }
     }
 }

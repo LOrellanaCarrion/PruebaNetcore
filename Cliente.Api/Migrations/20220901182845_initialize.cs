@@ -2,7 +2,7 @@
 
 namespace Cliente.Api.Migrations
 {
-    public partial class Initialice : Migration
+    public partial class initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

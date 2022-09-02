@@ -30,14 +30,12 @@ namespace Cuentas.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
+            services.AddTransient<IClienteService, ClienteService>();
             services.AddDbContext<ContextCuenta>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("conexionDB"));
             });
-            services.AddTransient<IRepositoryCuenta, RepositoryCuenta>();
-            services.AddTransient<IClienteService, ClienteService>();
+            services.AddTransient<IRepositoryCuenta, RepositoryCuenta>();     
             services.AddAutoMapper(typeof(Startup));
             services
            .AddControllersWithViews()
@@ -51,6 +49,8 @@ namespace Cuentas.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cuentas.Api", Version = "v1" });
             });
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

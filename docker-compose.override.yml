@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  cliente.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "6105:80"
+
+
+  cuentas.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Services__Cliente=http://cliente.api
+    ports:
+      - "6104:80"
+
+
+  movimientos.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Services__Cuenta=http://cuentas.api
+    ports:
+      - "6103:80"
+
+
+  api.gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - cliente.api
+      - cuentas.api
+      - movimientos.api
+    ports:
+      - "6108:80"
+

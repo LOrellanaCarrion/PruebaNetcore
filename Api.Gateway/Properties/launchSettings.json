@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Cuentas.Api": {
+    "Api.Gateway": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -22,9 +22,6 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
       "publishAllPorts": true
     }
   },
@@ -33,7 +30,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:47977",
+      "applicationUrl": "http://localhost:52662",
       "sslPort": 0
     }
   }

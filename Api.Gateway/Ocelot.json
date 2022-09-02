@@ -1,0 +1,124 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/cliente/Agregar",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cliente.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/AgregarCliente",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/cliente/Actualizar",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cliente.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/ActualizarCliente",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/cliente",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cliente.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/GetClientes",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/cliente/GetClienteById/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cliente.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/GetClienteById/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/cuenta/Agregar",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cuentas.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/AgregarCuenta",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/cuenta/Actualizar",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cuentas.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/ActualizarCuenta",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/cuenta/GetCuentasPorId/{IdCuenta}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cuentas.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/GetCuentasById/{IdCuenta}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/cuenta/GetCuentasPorCliente/{IdCliente}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cuentas.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/GetCuentasPorCliente/{IdCliente}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/movimiento/Agregar",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "movimientos.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/AgregarMovimiento",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/movimiento/GetMovientosPorClienteCuenta/{FechaInicial}/{FechaFinal}/{Idcliente}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "movimientos.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/GetMovientosPorClienteCuenta/{FechaInicial}/{FechaFinal}/{Idcliente}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
+  ]
+}
