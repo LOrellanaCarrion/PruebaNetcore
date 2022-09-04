@@ -31,9 +31,10 @@ namespace Cuentas.Api.RemoteService
                 {
                     var contenido= await response.Content.ReadAsStringAsync();
                     //var obj= new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-                    var resultado  = JsonConvert.DeserializeObject<ClienteRemote>(contenido.ToString());
+                    var resultado = JsonConvert.DeserializeObject<Response>(contenido.ToString());
+                    var _data = JsonConvert.DeserializeObject<ClienteRemote>(resultado.Data.ToString());
                     _response.IsSuccess = true;
-                    _response.Data=resultado;
+                    _response.Data= _data;
                     _response.Message = "Ok";
                     return _response;
                 }
@@ -41,7 +42,7 @@ namespace Cuentas.Api.RemoteService
                 {
                     _response.IsSuccess = false;
                     _response.Data = null;
-                    _response.Message = response.ReasonPhrase;
+                    _response.Message = "No Existe el Cliente Ingresado Ingresado";
                     return _response;
                 }
 

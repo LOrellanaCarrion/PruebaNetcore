@@ -16,14 +16,15 @@ namespace Movimientos.Api.Repositorios
     {
         private readonly ContextMovimiento _contextMovimiento;
         private readonly IMovimientoService _repositoryMovimiento;
+        private Response _response;
         public RepositoryMovimiento(ContextMovimiento contextMovimiento, IMovimientoService repositoryMovimiento)
         {
             _contextMovimiento = contextMovimiento;
             _repositoryMovimiento = repositoryMovimiento;
+            this._response = new Response();
         }
         public async Task<Response> Agregar(Movimiento movimiento)
         {
-            Response _response = new Response();
             using var transaction = _contextMovimiento.Database.BeginTransaction();
             decimal saldoDisponible = 0;
             try
@@ -110,11 +111,14 @@ namespace Movimientos.Api.Repositorios
         public async Task<Response> GetMovientosPorClienteCuenta(DateTime FechaInicial, DateTime FechaFinal, int Idcliente)
         {
             //p => p.FecIng >= settings.ExtraData.FechaDesde && p.FecIng <= settings.ExtraData.FechaHasta
-            Response _response = new Response();
+            List<ClienteCuentaRemote> _cuentaCliente = new List<ClienteCuentaRemote>();
             try
             {
                 var _cliente = await _repositoryMovimiento.GetCuentasPorCliente(Idcliente);
-                var _cuentaCliente = _cliente.Data as List<ClienteCuentaRemote>;
+                if (_cliente.IsSuccess)
+                {
+                     _cuentaCliente = _cliente.Data as List<ClienteCuentaRemote>;
+                }
                 var list = await _contextMovimiento.Movimiento.ToListAsync();
                 var cuentaCliente = (from p in _cuentaCliente
                                      join e in list

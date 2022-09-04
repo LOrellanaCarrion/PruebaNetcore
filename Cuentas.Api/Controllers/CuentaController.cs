@@ -82,11 +82,50 @@ namespace Cuentas.Api.Controllers
         public async Task<ActionResult<Response>> GetCuentasPorCliente(int IdCliente)
         {
             var Cuenta = await _mediator.GetCuentasPorCliente(IdCliente);
-            if (Cuenta.Data == null)
+            if (!Cuenta.IsSuccess)
             {
-                return NoContent();
+                return NotFound(Cuenta);
             }
             return Ok(Cuenta);
+        }
+
+        [HttpDelete("DeleteCuentaPoCliente/{IdCliente}")]
+        public async Task<ActionResult<Response>> DeleteCuentaPoCliente(int IdCliente)
+        {
+            Response response = new Response();
+            var _cuenta = await _mediator.GetCuentasPorCliente(IdCliente);
+            if (!_cuenta.IsSuccess)
+            {
+                return NotFound(_cuenta);
+            }
+            var Cuenta = _cuenta.Data as List<ClienteCuenta>;
+            foreach (var deletecuenta in Cuenta)
+            {
+                 response = await _mediator.Delete(deletecuenta.NumeroCuenta);
+            }
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpDelete("DeleteCuenta/{NumeroCuenta}")]
+        public async Task<ActionResult<Response>> DeleteCuenta(string NumeroCuenta)
+        {
+
+            var existeCuenta = await _mediator.ExisteCuenta(NumeroCuenta);
+            if (!existeCuenta.IsSuccess)
+            {
+                existeCuenta.Message = "No Existe Cuenta a Eliminar.";
+                return NotFound(existeCuenta);
+            }
+            var response = await _mediator.Delete(NumeroCuenta);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
     }
 }

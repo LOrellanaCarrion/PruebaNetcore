@@ -25,6 +25,18 @@
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
+      "DownstreamPathTemplate": "/api/cliente/DeleteCliente/{IdCliente}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cliente.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/DeleteCliente/{IdCliente}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/cliente",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -73,7 +85,7 @@
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/cuenta/GetCuentasPorId/{IdCuenta}",
+      "DownstreamPathTemplate": "/api/cuenta/DeleteCuenta/{NumeroCuenta}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -81,7 +93,19 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/GetCuentasById/{IdCuenta}",
+      "UpstreamPathTemplate": "/DeleteCuenta/{NumeroCuenta}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/cuenta/GetCuentasPorId/{NumeroCuenta}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "cuentas.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/GetCuentasById/{NumeroCuenta}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {

@@ -17,14 +17,15 @@ namespace Cuentas.Api.Repositorios
     {
         private readonly ContextCuenta _contextCuenta;
         private readonly IClienteService _clienteservice;
+        private Response _response;
         public RepositoryCuenta(ContextCuenta contextCuenta, IClienteService clienteservice)
         {
             _contextCuenta = contextCuenta;
             _clienteservice = clienteservice;
+            this._response = new Response();
         }
         public async Task<Response> Actualizar(Cuenta cuenta)
         {
-            Response _response = new Response();
             try
             {
                 var data = await _contextCuenta.Cuenta.FindAsync(cuenta.NumeroCuenta);
@@ -67,10 +68,9 @@ namespace Cuentas.Api.Repositorios
 
         public async Task<Response> ExisteCuenta(string NumeroCuenta)
         {
-            Response _response = new Response();
             try
             {
-                var existe = await _contextCuenta.Cuenta.AnyAsync(p => p.NumeroCuenta == NumeroCuenta);
+                var existe = await _contextCuenta.Cuenta.AnyAsync(p => p.NumeroCuenta == NumeroCuenta && p.Estado==true);
                 if (existe)
                 {
                     _response.IsSuccess = existe;
@@ -94,7 +94,6 @@ namespace Cuentas.Api.Repositorios
         }
         public async Task<Response> Agregar(Cuenta cuenta)
         {
-            Response _response = new Response();
             try
             {
 
@@ -128,7 +127,6 @@ namespace Cuentas.Api.Repositorios
         }
         public async Task<Response> GetCuentas()
         {
-            Response _response = new Response();
             try
             {
                 var list = await _contextCuenta.Cuenta.ToListAsync();
@@ -146,7 +144,6 @@ namespace Cuentas.Api.Repositorios
         }
         public async Task<Response> GetCuentasPorId(string NumeroCuenta)
         {
-            Response _response = new Response();
             try
             {
                 var list = await _contextCuenta.Cuenta.FirstOrDefaultAsync(p => p.NumeroCuenta == NumeroCuenta);
@@ -165,12 +162,14 @@ namespace Cuentas.Api.Repositorios
 
         public async Task<Response> GetCuentasPorCliente(int IdCliente)
         {
-            Response _response = new Response();
             List<ClienteRemote> cliente = new List<ClienteRemote>();
             try
             {
                 var _cliente = await _clienteservice.GetCliente(IdCliente);
-                cliente.Add(_cliente.Data as ClienteRemote);
+                if (_cliente.IsSuccess)
+                {
+                    cliente.Add(_cliente.Data as ClienteRemote);
+                }
                 var list = await _contextCuenta.Cuenta.Where(p=>p.IdCliente==IdCliente).ToListAsync();
                 var cuentaCliente = (from p in cliente
                               join e in list
@@ -183,14 +182,52 @@ namespace Cuentas.Api.Repositorios
                                   Estado = e.Estado,
                                   Cliente = p.Nombre
                               }).ToList();
-                _response.IsSuccess = true;
-                _response.Data = cuentaCliente;
+                if (cuentaCliente.Any())
+                {
+                    _response.IsSuccess = true;
+                    _response.Data = cuentaCliente;
+                    return _response;
+                }
+                _response.IsSuccess = false;
+                _response.Message = "No Existe Cuenta para el Cliente Ingresado.";
                 return _response;
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.Message = ex.Message;
+                return _response;
+            }
+        }
+
+        public async Task<Response> Delete(string NumeroCuenta)
+        {
+            try
+            {
+                var data = await _contextCuenta.Cuenta.FindAsync(NumeroCuenta);
+                data.Estado = false;
+                _contextCuenta.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                var resultado = await _contextCuenta.SaveChangesAsync();
+                if (resultado > 0)
+                {
+                    _response.IsSuccess = true;
+                    _response.Message = "Ok";
+                    _response.Data = data;
+                    return _response;
+                }
+                else
+                {
+                    _response.IsSuccess = false;
+                    _response.Message = "Ocurrio un Problema Durante la Transacción.";
+                    return _response;
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.Message = "Ocurrio un Problema Durante la Transacción.";
                 return _response;
             }
         }

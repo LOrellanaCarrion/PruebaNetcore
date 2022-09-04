@@ -11,6 +11,7 @@ namespace Cuentas.Api.Repositorios
         Task<Response> Actualizar(Cuenta cuenta);
         Task<Response> GetCuentas();
         Task<Response> GetCuentasPorId(string NumeroCuenta);
+        Task<Response> Delete(string NumeroCuenta);
         Task<Response> GetCuentasPorCliente(int IdCliente);
         Task<Response> ExisteCuenta(string NumeroCuenta);
     }

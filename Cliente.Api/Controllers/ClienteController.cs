@@ -2,6 +2,7 @@
 using Cliente.Api.Data;
 using Cliente.Api.Modelo;
 using Cliente.Api.Persistencia;
+using Cliente.Api.Utils;
 using Cliente.Api.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,63 +26,74 @@ namespace Cliente.Api.Controllers
         }
 
         [HttpPost("Agregar")]
-        public async Task<ActionResult<int>> Agregar(ClienteCreateViewModel cliente)
+        public async Task<ActionResult<Response>> Agregar(ClienteCreateViewModel cliente)
         {
-            try
-            {
+           
                 var _cliente=Mapper.Map<Cliente.Api.Modelo.Cliente>(cliente);
                 var response = await _mediator.Agregar(_cliente);
-                if (response > 0)
+                if (response.IsSuccess)
                 {
-                    return Ok();
+                    return Ok(response);
                 }
-                return BadRequest("Ocurrio un Problema Durante la Transacción");
-            }
-            catch (System.Exception) 
-            {
+                return BadRequest(response);
+            
 
-                return BadRequest("Ocurrio un Problema Durante la Transacción");
-            }
         }
         [HttpPut("Actualizar")]
-        public async Task<ActionResult<int>> Actualizar(ClienteViewModel cliente)
+        public async Task<ActionResult<Response>> Actualizar(ClienteViewModel cliente)
         {
-            try
-            {
-                if(!await _mediator.ExisteCliente(cliente.Id))
+            var existeCliente = await _mediator.ExisteCliente(cliente.Id);
+                if (existeCliente.IsSuccess)
                 {
-                    return NotFound("No Existe Cliente a Modificar");
+                    return NotFound(existeCliente);
                 }
                 var _cliente = Mapper.Map<Cliente.Api.Modelo.Cliente>(cliente);
                 var response = await _mediator.Actualizar(_cliente);
-                if (response > 0)
+                if (response.IsSuccess)
                 {
-                    return Ok();
+                    return Ok(response);
                 }
-                return BadRequest("Ocurrio un Problema Durante la Transacción");
-            }
-            catch (System.Exception)
-            {
-
-                return BadRequest("Ocurrio un Problema Durante la Transacción");
-            }
+                return BadRequest(response);
+        
         }
         [HttpGet]
-        public async Task<ActionResult<List<ClienteViewModel>>> Get()
+        public async Task<ActionResult<Response>> Get()
         {
             var response= await _mediator.GetClientes();
-
-            return Mapper.Map<List<ClienteViewModel>>(response);
+            if (response.Data == null)
+            {
+                return NoContent();
+            }
+            return Ok(response);
         }
 
         [HttpGet("GetClienteById/{IdCliente}")]
-        public async Task<ActionResult<ClienteViewModel>> GetClienteById(int IdCliente)
+        public async Task<ActionResult<Response>> GetClienteById(int IdCliente)
         {
             var response = await _mediator.GetClienteById(IdCliente);
+            if (response.Data==null)
+            {
+                return NoContent();
+            }
+            return Ok(response);
+        }
 
-            return Mapper.Map<ClienteViewModel>(response);
+        [HttpDelete("DeleteCliente/{IdCliente}")]
+        public async Task<ActionResult<Response>> DeleteCliente(int IdCliente)
+        {
+            var existeCliente = await _mediator.ExisteCliente(IdCliente);
+            if (!existeCliente.IsSuccess)
+            {
+                return NotFound(existeCliente);
+            }
+            var response = await _mediator.Delete(IdCliente);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
 
-}
+    }
 }

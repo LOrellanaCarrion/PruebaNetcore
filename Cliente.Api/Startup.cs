@@ -1,6 +1,7 @@
 
 using Cliente.Api.Data;
 using Cliente.Api.Persistencia;
+using Cliente.Api.RemoteService;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,7 @@ namespace Cliente.Api
         {
 
             services.AddControllers();
+            services.AddTransient<ICuentaService, CuentaService>();
             services.AddDbContext<ContextCliente>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("conexionDB"));
@@ -42,6 +44,10 @@ namespace Cliente.Api
         .AddControllersWithViews()
         .AddJsonOptions(options =>
             options.JsonSerializerOptions.PropertyNamingPolicy = null);
+            services.AddHttpClient("Cuenta", config =>
+            {
+                config.BaseAddress = new Uri(Configuration["Services:Cuenta"]);
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cliente.Api", Version = "v1" });

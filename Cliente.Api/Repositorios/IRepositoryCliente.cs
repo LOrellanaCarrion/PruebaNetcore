@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using Cliente.Api.Utils;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cliente.Api.Data
 {
     public interface IRepositoryCliente
     {
-        Task<int> Agregar(Cliente.Api.Modelo.Cliente cliente);
-        Task<int> Actualizar(Cliente.Api.Modelo.Cliente cliente);
-         Task<List<Modelo.Cliente>> GetClientes();
+        Task<Response> Agregar(Cliente.Api.Modelo.Cliente cliente);
+        Task<Response> Actualizar(Cliente.Api.Modelo.Cliente cliente);
+         Task<Response> GetClientes();
         Task<int> ObTenerMaximo();
-        Task<Modelo.Cliente> GetClienteById(int id);
-        Task<bool> ExisteCliente(int id);
+        Task<Response> GetClienteById(int id);
+        Task<Response> Delete(int id);
+        Task<Response> ExisteCliente(int id);
     }
 }

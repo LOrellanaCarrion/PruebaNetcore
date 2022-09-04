@@ -4,6 +4,7 @@ services:
   cliente.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - Services__Cuenta=http://cuentas.api
     ports:
       - "6105:80"
 
