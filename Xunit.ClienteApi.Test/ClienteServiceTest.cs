@@ -34,7 +34,7 @@ namespace Xunit.ClienteApi.Test
         public async void GetClientesAsync()
         {
        
-
+            ///Obtenemos todos los clientes
             var options = new DbContextOptionsBuilder<ContextCliente>()
                 .UseInMemoryDatabase(databaseName: "BaseDatosCliente")
                 .Options;
@@ -44,6 +44,7 @@ namespace Xunit.ClienteApi.Test
             RepositoryCliente repositoryCliente = new RepositoryCliente(contexto, null);
             var response = await repositoryCliente.GetClientes();
             Assert.True(response.IsSuccess);
+
 
         }
 
