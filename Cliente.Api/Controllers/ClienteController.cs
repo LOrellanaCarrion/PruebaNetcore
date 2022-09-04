@@ -43,7 +43,7 @@ namespace Cliente.Api.Controllers
         public async Task<ActionResult<Response>> Actualizar(ClienteViewModel cliente)
         {
             var existeCliente = await _mediator.ExisteCliente(cliente.Id);
-                if (existeCliente.IsSuccess)
+                if (!existeCliente.IsSuccess)
                 {
                     return NotFound(existeCliente);
                 }
